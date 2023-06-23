@@ -1,7 +1,6 @@
 
-const webdriver = require('selenium-webdriver');
-const fs = require('fs');
-
+import webdriver from 'selenium-webdriver';
+import fs from 'fs';
 
 const GRID_HOST = 'http://localhost:4444/wd/hub';
 
@@ -20,7 +19,7 @@ const driver = new webdriver.Builder()
     .withCapabilities(capabilities)
     .build();
 
-async function takeScreenshot(name) {
+async function takeScreenshot(name: string) {
     const screenshot = await driver.takeScreenshot();
     fs.writeFile(`screenshots/${name}.png`, screenshot, 'base64', function (error) {
         if (error != null)
@@ -28,7 +27,7 @@ async function takeScreenshot(name) {
     });
 }
 
-async function searchTextOnGoogle() {
+export async function createSnapshot() {
     try {
         // navigate to a url, search for a text and get title of page
         await driver.get('https://www.google.com/ncr');
@@ -37,5 +36,3 @@ async function searchTextOnGoogle() {
         await driver.quit();
     }
 }
-
-searchTextOnGoogle();
