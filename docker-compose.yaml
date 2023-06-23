@@ -15,7 +15,6 @@ services:
       replicas: 3
     # --shm-size="2g"
 
-
   hub:
     image: selenium/hub:4.10
     ports:
@@ -23,5 +22,5 @@ services:
       - "4443"
       - "4444:4444"
     environment:
-      - GRID_BROWSER_TIMEOUT=10
-      - GRID_TIMEOUT=15
+      - SE_NODE_MAX_SESSIONS=3
+      - SE_NODE_SESSION_TIMEOUT=10

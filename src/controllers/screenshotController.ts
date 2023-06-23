@@ -11,6 +11,13 @@ export class ScreenshotController {
 
     async getScreenshot(_request: express.Request, response: express.Response) {
         const screenshot = await screenshotService.createSnapshot();
-        response.send(screenshot);
+
+        const image = Buffer.from(screenshot, 'base64');
+
+        response.writeHead(200, {
+            'Content-Type': 'image/png',
+            'Content-Length': image.length
+        });
+        response.end(image);
     }
 }

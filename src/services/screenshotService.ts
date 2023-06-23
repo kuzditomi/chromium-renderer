@@ -14,7 +14,6 @@ class ScreenshotService {
     private driver: WebDriver | null = null;
 
     constructor() {
-
     }
 
     async start() {
@@ -55,3 +54,5 @@ class ScreenshotService {
 }
 
 export const screenshotService = new ScreenshotService();
+
+

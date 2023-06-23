@@ -30,7 +30,13 @@ function stopApp() {
     console.log(`[server]: Server stoped.`);
 }
 
-process.on('exit', function () {
+process.on('SIGINT', function () {
+    console.log('[app] sigint received')
+    stopApp();
+});
+
+process.on('SIGTERM', function () {
+    console.log('[app] sigterm received')
     stopApp();
 });
 
