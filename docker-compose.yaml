@@ -1,0 +1,27 @@
+version: '3'
+services:
+  chromenode:
+    image: selenium/node-chrome:114.0
+    depends_on:
+      - hub
+    environment:
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    ports:
+      - "5900"
+    deploy:
+      mode: replicated
+      replicas: 3
+    # --shm-size="2g"
+
+
+  hub:
+    image: selenium/hub:4.10
+    ports:
+      - "4442"
+      - "4443"
+      - "4444:4444"
+    environment:
+      - GRID_BROWSER_TIMEOUT=10
+      - GRID_TIMEOUT=15
