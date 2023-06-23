@@ -1,5 +1,6 @@
 import express from "express";
 import { screenshotService } from "../services/screenshotService";
+import { request } from "http";
 
 export class ScreenshotController {
     public readonly path = '/screenshots';
@@ -9,9 +10,15 @@ export class ScreenshotController {
         this.router.get(this.path, this.getScreenshot);
     }
 
-    async getScreenshot(_request: express.Request, response: express.Response) {
-        const screenshot = await screenshotService.createSnapshot();
+    async getScreenshot(request: express.Request, response: express.Response) {
+        const urlToScreenshot = request.query['url'];
+        if (!urlToScreenshot) {
+            response.sendStatus(400);
+            return;
+        }
 
+        console.log('[controller] creating screenshot from url', urlToScreenshot);
+        const screenshot = await screenshotService.createScreenshot(urlToScreenshot);
         const image = Buffer.from(screenshot, 'base64');
 
         response.writeHead(200, {

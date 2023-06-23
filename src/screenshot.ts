@@ -27,7 +27,7 @@ async function takeScreenshot(name: string) {
     });
 }
 
-export async function createSnapshot() {
+export async function createScreenshot() {
     try {
         // navigate to a url, search for a text and get title of page
         await driver.get('https://www.google.com/ncr');

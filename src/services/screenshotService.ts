@@ -32,14 +32,14 @@ class ScreenshotService {
         console.log('[screenshot service]: webdriver started')
     }
 
-    async createSnapshot() {
+    async createScreenshot(url: string) {
         if (!this.driver) {
             console.error('[screenshot service]: cant create screenshot, webdriver not running.')
 
             throw Error("webdriver not started.")
         }
 
-        await this.driver.get('https://www.google.com/ncr');
+        await this.driver.get(url);
         return await this.driver.takeScreenshot();
     }
 

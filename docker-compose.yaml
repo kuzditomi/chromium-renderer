@@ -13,7 +13,7 @@ services:
     deploy:
       mode: replicated
       replicas: 3
-    # --shm-size="2g"
+    shm_size: '2gb'
 
   hub:
     image: selenium/hub:4.10
