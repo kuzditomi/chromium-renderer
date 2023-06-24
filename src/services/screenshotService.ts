@@ -11,45 +11,27 @@ const CAPABILITIES = {
 }
 
 class ScreenshotService {
-    private driver: WebDriver | null = null;
-
     constructor() {
     }
 
-    async start() {
-        console.log('[screenshot service]: webdriver starting')
+    async createScreenshot(url: string) {
+        const driver = new webdriver.Builder()
+            .usingServer(GRID_HOST)
+            .withCapabilities(CAPABILITIES)
+            .build();
 
         try {
-            this.driver = new webdriver.Builder()
-                .usingServer(GRID_HOST)
-                .withCapabilities(CAPABILITIES)
-                .build();
+            await driver.get(url);
+            const screenshot = await driver.takeScreenshot();
+            await driver.quit();
+
+            return screenshot;
         } catch (e) {
-            console.log('[screenshot service]: webdriver failed to start', e);
+            console.log('[screenshot service]: capture failed', e);
+            await driver.quit();
+
             throw e;
         }
-
-        console.log('[screenshot service]: webdriver started')
-    }
-
-    async createScreenshot(url: string) {
-        if (!this.driver) {
-            console.error('[screenshot service]: cant create screenshot, webdriver not running.')
-
-            throw Error("webdriver not started.")
-        }
-
-        await this.driver.get(url);
-        return await this.driver.takeScreenshot();
-    }
-
-    stop() {
-        console.log('[screenshot service]: webdriver stopping')
-
-        this.driver?.quit();
-        this.driver = null;
-        
-        console.log('[screenshot service]: webdriver stopped.')
     }
 }
 

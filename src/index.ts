@@ -9,9 +9,9 @@ let server: http.Server | null = null;
 
 async function startApp() {
     try {
-        await screenshotService.start();
-
         const screenshotController = new ScreenshotController();
+        
+        app.use(express.json());
         app.use('/', screenshotController.router);
         
         server = app.listen(port, () => {
@@ -24,8 +24,6 @@ async function startApp() {
 }
 
 function stopApp() {
-    screenshotService.stop();
-
     server?.close();
     console.log(`[server]: Server stoped.`);
 }
